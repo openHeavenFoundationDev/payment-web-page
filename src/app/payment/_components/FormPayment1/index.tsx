@@ -35,7 +35,7 @@ const FormPayment1: React.FC<formPaymentProps> = ({
           <Image
             src="/logo.png"
             width={150}
-            height={300}
+            height={200}
             alt="Open Heaven Foundation Logo"
           />
         </div>
