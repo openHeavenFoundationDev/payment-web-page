@@ -1,0 +1,57 @@
+[
+  {
+    "route": "/api/payment/transaction",
+    "status": 500,
+    "message": "gross_amount is not defined"
+  },
+  {
+    "route": "/api/payment/transaction",
+    "status": 500,
+    "message": "gross_amount is not defined"
+  },
+  {
+    "route": "/api/payment/transaction",
+    "status": 500,
+    "message": "gross_amount is not defined"
+  },
+  {
+    "route": "/api/payment/transaction",
+    "status": 500,
+    "message": "gross_amount is not defined"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Cannot read properties of undefined (reading 'toUpperCase')"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Cannot read properties of undefined (reading 'toUpperCase')"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Cannot read properties of undefined (reading 'toUpperCase')"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Cannot read properties of undefined (reading 'toUpperCase')"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Cannot read properties of undefined (reading 'toUpperCase')"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Cannot read properties of undefined (reading 'toUpperCase')"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Cannot read properties of undefined (reading 'toUpperCase')"
+  }
+]
