@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DataTx1 } from "@/interfaces/DataTx1";
+import Loading from "../_components/Loading";
 import FormPayment1 from "../_components/FormTx1";
 import generateOrderId from "@/utils/generateOrderId";
 
@@ -13,6 +14,7 @@ const currency = "IDR";
 
 const Donation: React.FC<DonationProps> = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(true);
   const [transactionData, setTransactionData] = useState<DataTx1>({
     name: "",
     amount: 0,
@@ -33,6 +35,7 @@ const Donation: React.FC<DonationProps> = () => {
   };
 
   const handleTx = async () => {
+    setLoading(false);
     try {
       const body = {
         txType: typeTx.toLowerCase(),
@@ -78,13 +81,16 @@ const Donation: React.FC<DonationProps> = () => {
 
   return (
     <div>
-      <FormPayment1
-        label={typeTx}
-        currency={currency}
-        getStringValue={handleName}
-        getNumberValue={handleAmount}
-        onClick={handleTx}
-      />
+      {loading && (
+        <FormPayment1
+          label={typeTx}
+          currency={currency}
+          getStringValue={handleName}
+          getNumberValue={handleAmount}
+          onClick={handleTx}
+        />
+      )}
+      {!loading && <Loading />}
     </div>
   );
 };
