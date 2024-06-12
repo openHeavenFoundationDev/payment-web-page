@@ -3,27 +3,24 @@
 import React from "react";
 import Image from "next/image";
 import Title from "../_childComponents/Title";
-import SelectMerchandise1 from "../_childComponents/SelectMerchandise1";
 import InputString from "../_childComponents/InputString";
 import ButtonSubmit from "../_childComponents/ButtonSubmit";
 
-interface FormTx3Props {
+interface FormMerchandise2Props {
   label: string;
-  getItem: (value: string) => void;
   getName: (value: string) => void;
-  getLastName: (value: string) => void;
   getEmail: (value: string) => void;
   getPhoneNumber: (value: string) => void;
+  getAddress: (value: string) => void;
   onClick: () => void;
 }
 
-const FormTx3: React.FC<FormTx3Props> = ({
+const FormMerchandise2: React.FC<FormMerchandise2Props> = ({
   label,
-  getItem,
   getName,
-  getLastName,
   getEmail,
   getPhoneNumber,
+  getAddress,
   onClick,
 }) => {
   return (
@@ -36,40 +33,20 @@ const FormTx3: React.FC<FormTx3Props> = ({
         <div className="mb-6">
           <Image
             src="/logo.png"
-            width={150}
-            height={200}
+            width={75}
+            height={100}
             alt="Open Heaven Foundation Logo"
           />
         </div>
 
         <div className="mb-4">
-          <SelectMerchandise1
-            getItemValue={(e) => {
-              getItem(e);
-            }}
-          />
-        </div>
-
-        <div className="mb-4">
           <InputString
-            id="firstName"
-            name="firstName"
+            id="fullName"
+            name="fullName"
             type="text"
-            placeholder="First Name"
+            placeholder="Nama Lengkap"
             getStringValue={(e) => {
               getName(e);
-            }}
-          />
-        </div>
-
-        <div className="mb-4">
-          <InputString
-            id="lastName"
-            name="lastName"
-            type="text"
-            placeholder="Last Name"
-            getStringValue={(e) => {
-              getLastName(e);
             }}
           />
         </div>
@@ -86,14 +63,26 @@ const FormTx3: React.FC<FormTx3Props> = ({
           />
         </div>
 
-        <div className="mb-6">
+        <div className="mb-4">
           <InputString
-            id="phonenumber"
-            name="phonenumber"
+            id="phoneNumber"
+            name="phoneNumber"
             type="text"
-            placeholder="PhoneNumber"
+            placeholder="No HP / WA"
             getStringValue={(e) => {
               getPhoneNumber(e);
+            }}
+          />
+        </div>
+
+        <div className="mb-6">
+          <InputString
+            id="address"
+            name="address"
+            type="text"
+            placeholder="Alamat Pengiriman"
+            getStringValue={(e) => {
+              getAddress(e);
             }}
           />
         </div>
@@ -106,4 +95,4 @@ const FormTx3: React.FC<FormTx3Props> = ({
   );
 };
 
-export default FormTx3;
+export default FormMerchandise2;

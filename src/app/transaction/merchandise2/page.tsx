@@ -2,26 +2,31 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { DataTx2 } from "@/interfaces/DataTx2";
-import FormTx2 from "../_components/FormTx2";
 import Loading from "../_components/Loading";
+import FormMerchandise2 from "../_components/FormMerchandise2";
 import generateOrderId from "@/utils/generateOrderId";
+import splitName from "@/utils/splitName";
 
-interface TheologicalSchoolProps {}
+interface Merchandise1Props {}
 
-const typeTx = "STT";
-const label = "Theological School Registration";
-const grossAmount = 10000000;
+interface DataTx3 {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+}
 
-const TheologicalSchool: React.FC<TheologicalSchoolProps> = () => {
+const typeTx = "MCDS2";
+const label = "Merchandise";
+
+const Merchandise1: React.FC<Merchandise1Props> = () => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
-  const [transactionData, setTransactionData] = useState<DataTx2>({
+  const [transactionData, setTransactionData] = useState<DataTx3>({
     name: "",
-    lastName: "",
     email: "",
     phoneNumber: "",
-    orderId: "",
+    address: "",
   });
 
   const handleName = (name: string) => {
@@ -31,10 +36,10 @@ const TheologicalSchool: React.FC<TheologicalSchoolProps> = () => {
     }));
   };
 
-  const handleLastName = (lastName: string) => {
+  const handleAddress = (address: string) => {
     setTransactionData((prevData) => ({
       ...prevData,
-      lastName: lastName,
+      address: address,
     }));
   };
 
@@ -53,25 +58,38 @@ const TheologicalSchool: React.FC<TheologicalSchoolProps> = () => {
   };
 
   const handleTx = async () => {
+    if (
+      transactionData.name === "" ||
+      transactionData.email === "" ||
+      transactionData.phoneNumber === "" ||
+      transactionData.address === ""
+    ) {
+      console.log(
+        `name: ${transactionData.name} ; email: ${transactionData.email} ; phoneNumber: ${transactionData.phoneNumber} ; address: ${transactionData.address}`
+      );
+      return;
+    }
+
     setLoading(false);
+
     try {
       const orderId = generateOrderId(typeTx.toUpperCase());
-      setTransactionData((prevData) => ({
-        ...prevData,
-        orderId: orderId,
-      }));
+      const grossAmount = 50000
+      const { firstName, lastName } = splitName(transactionData.name);
 
       const body = {
         txType: typeTx.toLowerCase(),
         orderId: orderId,
-        name: transactionData.name,
-        lastName: transactionData.lastName,
+        item: "Topi Baseball OH",
+        firstName: firstName,
+        lastName: lastName,
         email: transactionData.email,
         phoneNumber: transactionData.phoneNumber,
+        address: transactionData.address,
         grossAmount: grossAmount,
       };
 
-      const response = await fetch(`/api/payment/tx1`, {
+      const response = await fetch(`/api/payment/tx2`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +99,7 @@ const TheologicalSchool: React.FC<TheologicalSchoolProps> = () => {
 
       if (!response.ok) {
         const log: { route: string; line: number; message: string } = {
-          route: "/payment/TheologicalSchool",
+          route: "/payment/Merchandise1",
           line: 50,
           message: "Something went wrong, failed to fetch data to midtrans.",
         };
@@ -90,11 +108,11 @@ const TheologicalSchool: React.FC<TheologicalSchoolProps> = () => {
       } else {
         const payload = await response.json();
         const paymentUrl = payload.data.redirect_url;
-        handleSendEmail(paymentUrl);
+        handleSendEmail(firstName, orderId, grossAmount, paymentUrl);
       }
     } catch (error) {
       const log = {
-        route: "/payment/TheologicalSchool",
+        route: "/payment/Merchandise1",
         line: 63,
         message: "An unknown error occurred",
       };
@@ -106,13 +124,13 @@ const TheologicalSchool: React.FC<TheologicalSchoolProps> = () => {
     }
   };
 
-  const handleSendEmail = async (paymentUrl: string) => {
+  const handleSendEmail = async (firstName: string, orderId: string, grossAmount: number, paymentUrl: string) => {
     try {
       const body = {
-        name: transactionData.name,
+        name: firstName,
         email: transactionData.email,
         grossAmount: grossAmount,
-        orderId: transactionData.orderId,
+        orderId: orderId,
         paymentUrl: paymentUrl,
       };
 
@@ -138,7 +156,7 @@ const TheologicalSchool: React.FC<TheologicalSchoolProps> = () => {
       return;
     } catch (error) {
       const log = {
-        route: "/payment/TheologicalSchool",
+        route: "/payment/Merchandise1",
         line: 63,
         message: "An unknown error occurred",
       };
@@ -153,12 +171,12 @@ const TheologicalSchool: React.FC<TheologicalSchoolProps> = () => {
   return (
     <div>
       {loading && (
-        <FormTx2
+        <FormMerchandise2
           label={label}
           getName={handleName}
-          getLastName={handleLastName}
           getEmail={handleEmail}
           getPhoneNumber={handlePhoneNumber}
+          getAddress={handleAddress}
           onClick={handleTx}
         />
       )}
@@ -167,4 +185,4 @@ const TheologicalSchool: React.FC<TheologicalSchoolProps> = () => {
   );
 };
 
-export default TheologicalSchool;
+export default Merchandise1;

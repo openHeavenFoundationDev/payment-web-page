@@ -3,27 +3,27 @@
 import React from "react";
 import Image from "next/image";
 import Title from "../_childComponents/Title";
-import SelectMerchandise1 from "../_childComponents/SelectMerchandise1";
+import SelectSize from "../_childComponents/SelectSize";
 import InputString from "../_childComponents/InputString";
 import ButtonSubmit from "../_childComponents/ButtonSubmit";
 
-interface FormTx3Props {
+interface FormMerchandise1Props {
   label: string;
   getItem: (value: string) => void;
   getName: (value: string) => void;
-  getAddress: (value: string) => void;
   getEmail: (value: string) => void;
   getPhoneNumber: (value: string) => void;
+  getAddress: (value: string) => void;
   onClick: () => void;
 }
 
-const FormTx3: React.FC<FormTx3Props> = ({
+const FormMerchandise1: React.FC<FormMerchandise1Props> = ({
   label,
   getItem,
   getName,
-  getAddress,
   getEmail,
   getPhoneNumber,
+  getAddress,
   onClick,
 }) => {
   return (
@@ -33,17 +33,17 @@ const FormTx3: React.FC<FormTx3Props> = ({
           <Title label={label} />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-6">
           <Image
             src="/logo.png"
-            width={150}
-            height={200}
+            width={75}
+            height={100}
             alt="Open Heaven Foundation Logo"
           />
         </div>
 
         <div className="mb-4">
-          <SelectMerchandise1
+          <SelectSize
             getItemValue={(e) => {
               getItem(e);
             }}
@@ -76,8 +76,8 @@ const FormTx3: React.FC<FormTx3Props> = ({
 
         <div className="mb-4">
           <InputString
-            id="phonenumber"
-            name="phonenumber"
+            id="phoneNumber"
+            name="phoneNumber"
             type="text"
             placeholder="No HP / WA"
             getStringValue={(e) => {
@@ -86,7 +86,7 @@ const FormTx3: React.FC<FormTx3Props> = ({
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-6">
           <InputString
             id="address"
             name="address"
@@ -106,4 +106,4 @@ const FormTx3: React.FC<FormTx3Props> = ({
   );
 };
 
-export default FormTx3;
+export default FormMerchandise1;
