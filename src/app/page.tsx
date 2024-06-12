@@ -60,7 +60,11 @@ const Home: React.FC = () => {
           </p>
 
           <div className="border border-white bg-blue-900 rounded-xl px-3 py-2 text-white text-sm text-center font-bold hover:bg-blue-700">
-            <Link href={linkPayment1}>Beli Sekarang</Link>
+            <Link href={linkPayment1}>
+              <div className="bg-blue-900 rounded-3xl px-3 py-2 w-full text-white text-center hover:bg-blue-700">
+                Beli Sekarang
+              </div>
+            </Link>
           </div>
         </div>
 
@@ -91,7 +95,11 @@ const Home: React.FC = () => {
             dipadukan dengan berbagai outfit.
           </p>
           <div className="border border-white bg-blue-900 rounded-xl px-3 py-2 text-white text-sm text-center font-bold hover:bg-blue-700">
-            <Link href={linkPayment2}>Beli Sekarang</Link>
+            <Link href={linkPayment2}>
+              <div className="bg-blue-900 rounded-3xl px-3 py-2 w-full text-white text-center hover:bg-blue-700">
+                Beli Sekarang
+              </div>
+            </Link>
           </div>
         </div>
       </div>
