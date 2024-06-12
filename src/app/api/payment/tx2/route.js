@@ -64,10 +64,10 @@ export async function POST(request) {
         postal_code: "",
         country_code: "IDN",
       },
-      callbacks: {
-        finish: `https://open-heaven-foundation.vercel.app/thankyou/${typeTx}`,
-        error: `https://open-heaven-foundation.vercel.app/error/${typeTx}`,
-      },
+      // callbacks: {
+      //   finish: `https://open-heaven-foundation.vercel.app/thankyou/${typeTx}`,
+      //   error: `https://open-heaven-foundation.vercel.app/error/${typeTx}`,
+      // },
     };
 
     // Create midtrans transaction

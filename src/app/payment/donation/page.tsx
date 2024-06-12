@@ -96,7 +96,7 @@ const Donation: React.FC<DonationProps> = () => {
 
       const grossAmount =
         transactionData.item === "Topi"
-          ? 30000
+          ? 50000
           : transactionData.item === "T-Shirt S" ||
             transactionData.item === "T-Shirt M"
           ? 100000
