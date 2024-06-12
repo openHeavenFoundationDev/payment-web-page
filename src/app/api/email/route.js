@@ -98,7 +98,7 @@ export async function POST(request) {
       from: "Open Heaven Foundation",
       to: email,
       subject: "Konfirmasi Pembayaran",
-      text: `Hi ${name}, pembayaran sebesar ${grossAmount} dengan order-ID ${orderId} telah berhasil. Saat ini kami sedang memproses pesanan Anda lalu akan kami kirimkan ke alamat Anda. Anda juga dapat memeriksa kembali link pembayaran anda di link berikut ini ${paymentUrl}. Terimakasih Anda telah membeli produk merchandise Yayasan kami sebagai bentuk donasi, Dana penjualan merchandise akan kami salurkan untuk kegiatan sosial seperti membagikan sembako, pemeriksaan, dan penyuluhan kesehatan.`,
+      text: `Hi ${name}, pembayaran sebesar Rp ${grossAmount} dengan order-ID ${orderId} telah berhasil. Saat ini kami sedang memproses pesanan Anda lalu akan kami kirimkan ke alamat Anda. Anda juga dapat memeriksa kembali link pembayaran anda di link berikut ini ${paymentUrl}. Terimakasih Anda telah membeli produk merchandise Yayasan kami sebagai bentuk donasi, Dana penjualan merchandise akan kami salurkan untuk kegiatan sosial seperti membagikan sembako, pemeriksaan, dan penyuluhan kesehatan.`,
       // html: html,
     };
 
