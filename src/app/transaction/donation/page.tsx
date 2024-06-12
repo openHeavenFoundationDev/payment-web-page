@@ -3,12 +3,12 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DataTx1 } from "@/interfaces/DataTx1";
-import FormPayment1 from "../_components/FormTx1";
+import FormTx1 from "../_components/FormTx1";
 import generateOrderId from "@/utils/generateOrderId";
 
 interface DonationProps {}
 
-const typeTx = "Offering";
+const typeTx = "Donation";
 const currency = "IDR";
 
 const Donation: React.FC<DonationProps> = () => {
@@ -78,13 +78,12 @@ const Donation: React.FC<DonationProps> = () => {
 
   return (
     <div>
-      <FormPayment1
+      <FormTx1
         label={typeTx}
         currency={currency}
         getStringValue={handleName}
         getNumberValue={handleAmount}
-        onClick={handleTx}
-      />
+        onClick={handleTx}    />
     </div>
   );
 };

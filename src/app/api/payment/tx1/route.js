@@ -1,22 +1,26 @@
 import { NextResponse } from "next/server";
 import midtransClient from "midtrans-client";
-import generateOrderId from "@/utils/generateOrderId";
 import errorLog from "@/utils/errorLog";
 
 export async function POST(request) {
   try {
     // Read the body data
-    const { typeTx, orderId, name, grossAmount } = await request.json();
+    const { typeTx, orderId, name, lastName, email, phoneNumber, grossAmount } =
+      await request.json();
 
     // Set midtrans key
     const server_key =
       typeTx === "donation"
         ? process.env.NEXT_PUBLIC_SERVER_KEY_1
-        : process.env.NEXT_PUBLIC_SERVER_KEY_2;
+        : typeTx === "tithe" || typeTx === "offering"
+        ? process.env.NEXT_PUBLIC_SERVER_KEY_2
+        : process.env.NEXT_PUBLIC_SERVER_KEY_3;
     const client_key =
       typeTx === "donation"
         ? process.env.NEXT_PUBLIC_CLIENT_KEY_1
-        : process.env.NEXT_PUBLIC_CLIENT_KEY_2;
+        : typeTx === "tithe" || typeTx === "offering"
+        ? process.env.NEXT_PUBLIC_CLIENT_KEY_2
+        : process.env.NEXT_PUBLIC_CLIENT_KEY_3;
 
     // Midtrans client config
     const snap = new midtransClient.Snap({
@@ -27,19 +31,37 @@ export async function POST(request) {
     });
 
     // Parameter config
-    const parameter = {
-      transaction_details: {
-        order_id: orderId,
-        gross_amount: grossAmount,
-      },
-      customer_details: {
-        first_name: name,
-      },
-      callbacks: {
-        finish: `http://localhost:3000/thankyou/${typeTx}`,
-        error: `http://localhost:3000/error/${typeTx}`,
-      },
-    };
+    const parameter =
+      typeTx === "donation" || typeTx === "tithe" || typeTx === "offering"
+        ? {
+            transaction_details: {
+              order_id: orderId,
+              gross_amount: grossAmount,
+            },
+            customer_details: {
+              first_name: name,
+            },
+            callbacks: {
+              finish: `https://open-heaven-foundation.vercel.app/thankyou/${typeTx}`,
+              error: `https://open-heaven-foundation.vercel.app/error/${typeTx}`,
+            },
+          }
+        : {
+            transaction_details: {
+              order_id: orderId,
+              gross_amount: grossAmount,
+            },
+            customer_details: {
+              first_name: name,
+              last_name: lastName,
+              email: email,
+              phone_number: phoneNumber,
+            },
+            callbacks: {
+              finish: `https://open-heaven-foundation.vercel.app/thankyou/${typeTx}`,
+              error: `https://open-heaven-foundation.vercel.app/error/${typeTx}`,
+            },
+          };
 
     // Create midtrans transaction
     const transaction = await snap.createTransaction(parameter);

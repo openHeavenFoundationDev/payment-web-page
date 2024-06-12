@@ -2,22 +2,20 @@
 
 import React from "react";
 import Image from "next/image";
-import { TitleProps } from "@/interfaces/TitleProps";
-import { InputStringProps } from "@/interfaces/InputStringProps";
-import { InputMoneyProps } from "@/interfaces/InputMoneyProps";
-import { ButtonProps } from "@/interfaces/ButtonProps";
 import Title from "../_childComponents/Title";
-import InputName from "../_childComponents/InputName";
+import InputString from "../_childComponents/InputString";
 import InputMoney from "../_childComponents/InputMoney";
 import ButtonSubmit from "../_childComponents/ButtonSubmit";
 
-interface formPaymentProps
-  extends TitleProps,
-    InputStringProps,
-    InputMoneyProps,
-    ButtonProps {}
+interface FormTx1Props {
+  label: string;
+  currency: string;
+  getStringValue: (value: string) => void;
+  getNumberValue: (value: number) => void;
+  onClick: () => void;
+}
 
-const FormPayment1: React.FC<formPaymentProps> = ({
+const FormTx1: React.FC<FormTx1Props> = ({
   label,
   currency,
   getStringValue,
@@ -26,12 +24,12 @@ const FormPayment1: React.FC<formPaymentProps> = ({
 }) => {
   return (
     <div className="bg-black text-white flex min-h-screen flex-col items-center justify-center">
-      <div className="border border-white rounded-xl flex flex-col items-center justify-center p-10">
+      <div className="border border-white rounded-xl flex flex-col items-center justify-center p-6">
         <div className="mb-4">
           <Title label={label} />
         </div>
 
-        <div className="mb-8">
+        <div className="mb-6">
           <Image
             src="/logo.png"
             width={150}
@@ -41,14 +39,18 @@ const FormPayment1: React.FC<formPaymentProps> = ({
         </div>
 
         <div className="mb-4">
-          <InputName
+          <InputString
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Your Name (Optional)"
             getStringValue={(e) => {
               getStringValue(e);
             }}
           />
         </div>
 
-        <div className="mb-8">
+        <div className="mb-6">
           <InputMoney
             currency={currency}
             getNumberValue={(e) => {
@@ -65,4 +67,4 @@ const FormPayment1: React.FC<formPaymentProps> = ({
   );
 };
 
-export default FormPayment1;
+export default FormTx1;

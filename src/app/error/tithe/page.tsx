@@ -1,6 +1,6 @@
 import React from "react";
 
-const donationError = () => {
+const titheError = () => {
   return (
     <div className="bg-black text-white h-screen">
       <p>
@@ -8,11 +8,10 @@ const donationError = () => {
         developer +6287732738256
       </p>
       <p>
-        For alternative, you can transfer directly to Yayasan Tingkap Langit
-        Efrata / Open Heaven Foundation BRI Account (471701019900531)
+        For alternative, you can transfer directly to Kevin Zefanya Kusnadi BCA Account (1680216131)
       </p>
     </div>
   );
 };
 
-export default donationError;
+export default titheError;
