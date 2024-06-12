@@ -13,8 +13,8 @@ const Merchandise: React.FC = () => {
       <div className="flex justify-center items-center mb-6">
         <Image
           src="/logo.png"
-          width={75}
-          height={100}
+          width={120}
+          height={160}
           alt="Open Heaven Foundation Logo"
           className="mx-8"
         />
@@ -62,7 +62,7 @@ const Merchandise: React.FC = () => {
           <div className="border border-white bg-blue-900 rounded-xl px-3 py-2 text-white text-sm text-center font-bold hover:bg-blue-700">
             <Link href={linkPayment1}>
               <div className="bg-blue-900 rounded-3xl px-3 py-2 w-full text-white text-center hover:bg-blue-700">
-                Beli Sekarang
+                Pesan Sekarang
               </div>
             </Link>
           </div>
@@ -97,7 +97,7 @@ const Merchandise: React.FC = () => {
           <div className="border border-white bg-blue-900 rounded-xl px-3 py-2 text-white text-sm text-center font-bold hover:bg-blue-700">
             <Link href={linkPayment2}>
               <div className="bg-blue-900 rounded-3xl px-3 py-2 w-full text-white text-center hover:bg-blue-700">
-                Beli Sekarang
+                Pesan Sekarang
               </div>
             </Link>
           </div>

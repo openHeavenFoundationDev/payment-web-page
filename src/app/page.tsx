@@ -2,106 +2,87 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const linkPayment1 =
-  "https://open-heaven-foundation.vercel.app/transaction/merchandise1";
-const linkPayment2 =
-  "https://open-heaven-foundation.vercel.app/transaction/merchandise2";
+const link1 = "https://www.foundationopenheaven.com/";
+const link2 = "https://foundationopenheaven.vercel.app/landingpage/merchandise";
+const link3 = "https://www.foundationopenheaven.com/";
+const link4 = "https://www.foundationopenheaven.com/";
 
 const Home: React.FC = () => {
   return (
-    <main className="bg-black text-white min-h-screen p-8">
+    <main className="bg-black text-white flex justify-start items-center min-h-screen p-8">
       <div className="flex justify-center items-center mb-6">
         <Image
           src="/logo.png"
-          width={75}
-          height={100}
+          width={150}
+          height={200}
           alt="Open Heaven Foundation Logo"
           className="mx-8"
         />
-        <div className="text-center w-2/3">
-          <h1 className="text-3xl font-bold mb-4">
-            Open Heaven Foundation Merchandise
-          </h1>
-          <p className="text-xs font-semibold">
-            Anda dapat membeli produk merchandise Yayasan kami sebagai bentuk
-            pemberian donasi. Dana penjualan merchandise akan kami salurkan
-            untuk kegiatan sosial seperti membagikan sembako, pemeriksaan, dan
-            penyuluhan kesehatan.
-          </p>
+        <div className="text-center w-1/2">
+          <h1 className="text-4xl font-bold mb-4">Open Heaven Foundation</h1>
         </div>
       </div>
 
-      <div className="flex justify-center items-center gap-6">
-        <div className="border border-white rounded-2xl w-1/3 h-1/3 p-6">
-          <div className="flex justify-center items-center gap-8">
-            <Image
-              src="/merchandise-tshirt.png"
-              width={150}
-              height={200}
-              alt="Merchandise T-Shirt Open Heaven"
-              className="rounded-xl mb-4"
-            />
-            <div>
-              <h1 className="font-bold text-lg mb-1">Casual T-Shirt OH</h1>
-              <div className="text-sm">
-                <p>Harga: Rp 150.000</p>
-                <p>Bahan: Katun</p>
-                <p>Warna: Hitam</p>
-                <p>Size: S, M, L, XL</p>
-              </div>
+      <div className="grid grid-cols-2 gap-6">
+        <Link href={link1}>
+          <div className="border-4 border-black hover:border-white hover:font-bold rounded-2xl">
+            <div className="border border-white hover:border-black rounded-2xl p-4">
+              <h1 className="mb-2 ">Official Website</h1>
+              <Image
+                src="/portal.png"
+                width={210}
+                height={175}
+                alt="Official Website Symbol"
+                className="rounded-xl"
+              />
             </div>
           </div>
+        </Link>
 
-          <p className="text-sm font-bold mb-1">Description:</p>
-          <p className="text-sm mb-6 h-24">
-            T-shirt Casual Comfort ini adalah pilihan sempurna untuk kenyamanan
-            sehari-hari dapat digunakan di acara casual. Terbuat dari bahan
-            katun premium yang lembut di kulit.
-          </p>
-
-          <div className="border border-white bg-blue-900 rounded-xl px-3 py-2 text-white text-sm text-center font-bold hover:bg-blue-700">
-            <Link href={linkPayment1}>
-              <div className="bg-blue-900 rounded-3xl px-3 py-2 w-full text-white text-center hover:bg-blue-700">
-                Beli Sekarang
-              </div>
-            </Link>
-          </div>
-        </div>
-
-        <div className="border border-white rounded-2xl w-1/3 h-1/3 p-6">
-          <div className="flex justify-center items-center gap-8">
-            <Image
-              src="/merchandise-hat.png"
-              width={150}
-              height={200}
-              alt="Merchandise Hat Walk by Faith"
-              className="rounded-xl mb-4"
-            />
-            <div>
-              <h1 className="font-bold text-lg mb-1">Topi Baseball OH</h1>
-              <div className="text-sm">
-                <p>Harga: Rp 50.000</p>
-                <p>Bahan: Denim</p>
-                <p>Warna: Hitam</p>
-                <p>Size: All Size</p>
-              </div>
+        <Link href={link2}>
+          <div className="border-4 border-black hover:border-white hover:font-bold rounded-2xl">
+            <div className="border border-white hover:border-black rounded-2xl p-4">
+              <h1 className="mb-2 ">Merchandise</h1>
+              <Image
+                src="/merchandise.png"
+                width={210}
+                height={175}
+                alt="Merchandise Symbol"
+                className="rounded-xl"
+              />
             </div>
           </div>
+        </Link>
 
-          <p className="text-sm font-bold mb-1">Description:</p>
-          <p className="text-sm mb-6 h-24">
-            Topi Baseball Classic ini dirancang untuk kenyamanan dan gaya
-            sehari-hari. Desainnya yang sederhana namun elegan membuatnya mudah
-            dipadukan dengan berbagai outfit.
-          </p>
-          <div className="border border-white bg-blue-900 rounded-xl px-3 py-2 text-white text-sm text-center font-bold hover:bg-blue-700">
-            <Link href={linkPayment2}>
-              <div className="bg-blue-900 rounded-3xl px-3 py-2 w-full text-white text-center hover:bg-blue-700">
-                Beli Sekarang
-              </div>
-            </Link>
+        <Link href={link3}>
+          <div className="border-4 border-black hover:border-white hover:font-bold rounded-2xl">
+            <div className="border border-white hover:border-black rounded-2xl p-4">
+              <h1 className="mb-2 ">Ministry</h1>
+              <Image
+                src="/ministry.png"
+                width={210}
+                height={175}
+                alt="Ministry Symbol"
+                className="rounded-xl"
+              />
+            </div>
           </div>
-        </div>
+        </Link>
+
+        <Link href={link4}>
+          <div className="border-4 border-black hover:border-white hover:font-bold rounded-2xl">
+            <div className="border border-white hover:border-black rounded-2xl p-4">
+              <h1 className="mb-2 ">Education</h1>
+              <Image
+                src="/education.png"
+                width={210}
+                height={175}
+                alt="Education Symbol"
+                className="rounded-xl"
+              />
+            </div>
+          </div>
+        </Link>
       </div>
     </main>
   );
