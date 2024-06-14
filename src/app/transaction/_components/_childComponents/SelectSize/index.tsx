@@ -18,10 +18,10 @@ const SelectSize: React.FC<SelectMerchandiseProps> = ({
       onChange={changeHandler}
     >
       <option value="">Pilih Size</option>
-      <option value="S">S</option>
-      <option value="M">M</option>
-      <option value="L">L</option>
-      <option value="XL">XL</option>
+      <option value="S">Size S</option>
+      <option value="M">Size M</option>
+      <option value="L">Size L</option>
+      <option value="XL">Size XL</option>
     </select>
   );
 };

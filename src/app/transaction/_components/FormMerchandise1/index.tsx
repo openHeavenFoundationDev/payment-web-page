@@ -5,6 +5,7 @@ import Image from "next/image";
 import Title from "../_childComponents/Title";
 import SelectSize from "../_childComponents/SelectSize";
 import InputString from "../_childComponents/InputString";
+import InputText from "../_childComponents/InputText";
 import ButtonSubmit from "../_childComponents/ButtonSubmit";
 
 interface FormMerchandise1Props {
@@ -87,12 +88,11 @@ const FormMerchandise1: React.FC<FormMerchandise1Props> = ({
         </div>
 
         <div className="mb-6">
-          <InputString
+          <InputText
             id="address"
             name="address"
-            type="text"
             placeholder="Alamat Pengiriman"
-            getStringValue={(e) => {
+            getTextValue={(e) => {
               getAddress(e);
             }}
           />
