@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const link1 = "https://www.foundationopenheaven.com/";
-const link2 = "https://foundationopenheaven.vercel.app/landingpage/merchandise";
+const link2 = "https://foundationopenheaven.vercel.app/landingpage/donation";
 const link3 = "https://www.foundationopenheaven.com/";
 const link4 = "https://www.foundationopenheaven.com/";
 
