@@ -17,7 +17,6 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
   const [view, setView] = useState<number>(0);
 
   const clearState = () => {
-    setLoading(false);
     setView(0);
   };
 
@@ -81,7 +80,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
   return (
     <>
       {loading && (
-        <div className="fixed inset-0 bg-slate-300 md:bg-black md:bg-opacity-50 backdrop-blur-sm flex justify-center items-center text-2xl font-bold">
+        <div className="fixed inset-0 bg-slate-300 md:bg-black md:bg-opacity-50 backdrop-blur-sm flex justify-center items-center text-2xl text-black md:text-white font-bold">
           Loading...
         </div>
       )}
