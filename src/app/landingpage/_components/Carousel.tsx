@@ -42,8 +42,8 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
             <Image
               src={src}
               alt={`Slide ${index + 1}`}
-              layout="fill"
-              objectFit="cover"
+              fill
+              style={{ objectFit: "cover" }}
               className="rounded-lg"
             />
           </div>

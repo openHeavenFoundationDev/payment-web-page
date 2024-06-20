@@ -1,7 +1,10 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Carousel from "../_components/Carousel";
+import ModalOption from "../_components/ModalOption";
 
 const mapSorong =
   "https://www.google.com/maps/@-0.9016933,131.3164105,52m/data=!3m1!1e3?entry=ttu";
@@ -24,6 +27,16 @@ const imagePaths = [
 ];
 
 const Donation: React.FC = () => {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+  const closeModalHandler = () => {
+    setModalVisible(false);
+  };
+
+  const clickHandler = () => {
+    setModalVisible(true);
+  };
+
   return (
     <div className="bg-slate-300 text-white flex flex-col justify-between min-h-screen">
       <div>
@@ -92,7 +105,10 @@ const Donation: React.FC = () => {
                     </ol>
                   </div>
                 </div>
-                <button className="bg-yellow-500 rounded-xl text-indigo-950 py-2 text-lg font-semibold w-full hover:font-bold hover:bg-yellow-400">
+                <button
+                  className="bg-yellow-500 rounded-xl text-indigo-950 py-2 text-lg font-semibold w-full hover:font-bold hover:bg-yellow-400"
+                  onClick={clickHandler}
+                >
                   Donasi Sekarang
                 </button>
               </div>
@@ -147,7 +163,10 @@ const Donation: React.FC = () => {
                     </ol>
                   </div>
                 </div>
-                <button className="bg-yellow-500 rounded-xl text-indigo-950 py-2 text-lg font-semibold w-full hover:font-bold hover:bg-yellow-400">
+                <button
+                  className="bg-yellow-500 rounded-xl text-indigo-950 py-2 text-lg font-semibold w-full hover:font-bold hover:bg-yellow-400"
+                  onClick={clickHandler}
+                >
                   Donasi Sekarang
                 </button>
               </div>
@@ -158,6 +177,13 @@ const Donation: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <ModalOption
+        isVisible={modalVisible}
+        closeModal={() => {
+          closeModalHandler();
+        }}
+      />
 
       {/* -----FOOTER----- */}
       <footer className="bg-black font-semibold text-white text-center text-sm md:text-md p-6">

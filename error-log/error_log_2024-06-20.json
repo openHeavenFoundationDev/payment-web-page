@@ -1,0 +1,57 @@
+[
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount must be greater than or equal to 0.01\"]}"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount must be greater than or equal to 0.01\"]}"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount must be greater than or equal to 0.01\"]}"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount must be greater than or equal to 0.01\"]}"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount must be greater than or equal to 0.01\"]}"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount must be greater than or equal to 0.01\"]}"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Unexpected end of JSON input"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount must be greater than or equal to 0.01\"]}"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount harus sama atau lebih besar dari 0.01\"]}"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount must be greater than or equal to 0.01\"]}"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount must be greater than or equal to 0.01\"]}"
+  }
+]
