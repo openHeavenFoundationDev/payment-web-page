@@ -1,9 +1,15 @@
 import React, { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import generateOrderId from "@/utils/generateOrderId";
 
 const typeTx = "Donation";
+
+const linkPayment1 =
+  "https://foundationopenheaven.vercel.app/transaction/merchandise1";
+const linkPayment2 =
+  "https://foundationopenheaven.vercel.app/transaction/merchandise2";
 
 interface ModalOptionProps {
   closeModal: () => void;
@@ -116,12 +122,12 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   </button>
                   <button
                     className=" bg-yellow-500 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:bg-yellow-400 mb-6"
-                    onClick={() => setView(2)}
+                    onClick={() => setView(3)}
                   >
                     2. Pembelian Merchandise
                   </button>
                   <button
-                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-700 hover:border-indigo-700"
+                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-600 hover:border-indigo-600"
                     onClick={closeModal}
                   >
                     Kembali
@@ -179,7 +185,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                     Masukan Nominal Donasi
                   </button>
                   <button
-                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-700 hover:border-indigo-700"
+                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-600 hover:border-indigo-600"
                     onClick={() => setView(0)}
                   >
                     Kembali
@@ -206,7 +212,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   </div>
 
                   <button
-                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-700 hover:border-indigo-700"
+                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-600 hover:border-indigo-600"
                     onClick={() => setView(1)}
                   >
                     Kembali
@@ -216,15 +222,90 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
 
               {/* MERCHANDISE */}
               {view === 3 && (
-                <div>
-                  MERCHANDISE{" "}
+                <>
+                  <div className="md:grid md:grid-cols-2 text-white text-start gap-6 mb-6">
+                    <div className="bg-indigo-950 rounded-3xl flex flex-col justify-between text-xs font-semibold w-80 h-96 p-4">
+                      <div>
+                        <div className="flex justify-start items-center gap-4 mb-4">
+                          <Image
+                            src="/merchandise-tshirt.png"
+                            width={150}
+                            height={200}
+                            alt="Merchandise T-Shirt Open Heaven"
+                            className="rounded-xl"
+                          />
+                          <div>
+                            <h1 className="text-yellow-400 font-bold text-sm mb-1">
+                              Casual T-Shirt
+                            </h1>
+                            <div>
+                              <p>Harga: Rp 150.000</p>
+                              <p>Bahan: Katun</p>
+                              <p>Warna: Hitam</p>
+                              <p>Size: S, M, L, XL</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <p className="text-yellow-400 text-sm font-bold mb-1">Description:</p>
+                        <p>
+                          T-shirt Casual Comfort ini adalah pilihan sempurna
+                          untuk kenyamanan sehari-hari dapat digunakan di acara
+                          casual. Terbuat dari bahan katun premium yang lembut
+                          di kulit.
+                        </p>
+                      </div>
+                      <div>
+                        <button className="bg-yellow-500 rounded-xl text-indigo-950 py-2 text-sm font-bold w-full hover:bg-yellow-400">
+                          Pesan Sekarang
+                        </button>
+                      </div>
+                    </div>
+                    <div className="bg-indigo-950 rounded-3xl flex flex-col justify-between text-xs font-semibold w-80 h-96 p-4">
+                      <div>
+                        <div className="flex justify-start items-center gap-4 mb-4">
+                          <Image
+                            src="/merchandise-hat.png"
+                            width={150}
+                            height={200}
+                            alt="Merchandise Hat Walk by Faith"
+                            className="rounded-xl"
+                          />
+                          <div>
+                            <h1 className="text-yellow-400 font-bold text-sm mb-1">
+                              Topi Baseball
+                            </h1>
+                            <div>
+                              <p>Harga: Rp 50.000</p>
+                              <p>Bahan: Denim</p>
+                              <p>Warna: Hitam</p>
+                              <p>Size: All Size</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <p className="text-yellow-400 text-sm font-bold mb-1">Description:</p>
+                        <p>
+                          Topi Baseball Classic ini dirancang untuk kenyamanan
+                          dan gaya sehari-hari. Desainnya yang sederhana namun
+                          elegan membuatnya mudah dipadukan dengan berbagai
+                          outfit.
+                        </p>
+                      </div>
+                      <div>
+                        <button className="bg-yellow-500 rounded-xl text-indigo-950 py-2 text-sm font-semibold w-full hover:bg-yellow-400">
+                          Pesan Sekarang
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                   <button
-                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-700 hover:border-indigo-700"
+                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-600 hover:border-indigo-600"
                     onClick={() => setView(0)}
                   >
                     Kembali
                   </button>
-                </div>
+                </>
               )}
             </div>
           </div>
