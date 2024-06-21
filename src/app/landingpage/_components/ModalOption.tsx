@@ -222,15 +222,15 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
 
               {/* MERCHANDISE */}
               {view === 3 && (
-                <>
+                <div className="overflow-auto max-h-screen md:max-h-none">
                   <div className="md:grid md:grid-cols-2 text-white text-start gap-6 mb-6">
-                    <div className="bg-indigo-950 rounded-3xl flex flex-col justify-between text-xs font-semibold w-80 h-96 p-4">
+                    <div className="bg-indigo-950 rounded-3xl flex flex-col justify-between text-xs font-semibold w-80 h-80 p-4 mb-4 md:mb-0">
                       <div>
                         <div className="flex justify-start items-center gap-4 mb-4">
                           <Image
                             src="/merchandise-tshirt.png"
-                            width={150}
-                            height={200}
+                            width={100}
+                            height={100}
                             alt="Merchandise T-Shirt Open Heaven"
                             className="rounded-xl"
                           />
@@ -247,7 +247,9 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                           </div>
                         </div>
 
-                        <p className="text-yellow-400 text-sm font-bold mb-1">Description:</p>
+                        <p className="text-yellow-400 text-sm font-bold mb-1">
+                          Description:
+                        </p>
                         <p>
                           T-shirt Casual Comfort ini adalah pilihan sempurna
                           untuk kenyamanan sehari-hari dapat digunakan di acara
@@ -261,13 +263,13 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                         </button>
                       </div>
                     </div>
-                    <div className="bg-indigo-950 rounded-3xl flex flex-col justify-between text-xs font-semibold w-80 h-96 p-4">
+                    <div className="bg-indigo-950 rounded-3xl flex flex-col justify-between text-xs font-semibold w-80 h-80 p-4">
                       <div>
                         <div className="flex justify-start items-center gap-4 mb-4">
                           <Image
                             src="/merchandise-hat.png"
-                            width={150}
-                            height={200}
+                            width={100}
+                            height={100}
                             alt="Merchandise Hat Walk by Faith"
                             className="rounded-xl"
                           />
@@ -284,7 +286,9 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                           </div>
                         </div>
 
-                        <p className="text-yellow-400 text-sm font-bold mb-1">Description:</p>
+                        <p className="text-yellow-400 text-sm font-bold mb-1">
+                          Description:
+                        </p>
                         <p>
                           Topi Baseball Classic ini dirancang untuk kenyamanan
                           dan gaya sehari-hari. Desainnya yang sederhana namun
@@ -305,7 +309,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   >
                     Kembali
                   </button>
-                </>
+                </div>
               )}
             </div>
           </div>
