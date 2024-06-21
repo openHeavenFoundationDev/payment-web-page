@@ -223,8 +223,8 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
               {/* MERCHANDISE */}
               {view === 3 && (
                 <div className="overflow-auto max-h-screen md:max-h-none">
-                  <div className="md:grid md:grid-cols-2 text-white text-start gap-6 mb-4 md:mb-6">
-                    <div className="bg-indigo-950 rounded-3xl flex flex-col justify-between text-xs font-semibold w-80 h-72 p-4 mb-4 md:mb-0">
+                  <div className="md:grid md:grid-cols-2 text-white text-start gap-6 mb-3 md:mb-6">
+                    <div className="bg-indigo-950 rounded-3xl flex flex-col justify-between text-xs font-semibold w-80 h-72 p-4 mb-3 md:mb-0">
                       <div>
                         <div className="flex justify-start items-center gap-4 mb-4">
                           <Image
