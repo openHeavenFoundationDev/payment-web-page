@@ -38,7 +38,7 @@ const Donation: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-300 text-white flex flex-col justify-between min-h-screen">
+    <div className="bg-white text-white flex flex-col justify-between min-h-screen">
       <div>
         {/* PAGE TITLE */}
         <div className="bg-black xl:flex justify-center items-center gap-4 w-full p-6">
@@ -57,7 +57,7 @@ const Donation: React.FC = () => {
 
         {/* CONTENT-MD-SM */}
         <div className="block xl:hidden p-2">
-          <div className="bg-indigo-950 rounded-3xl p-4">
+          <div className="bg-indigo-800 p-4">
             <div className="grid grid-cols-1">
               <div className="flex flex-col justify-between items-center text-sm">
                 <div className="mb-2">
@@ -106,7 +106,7 @@ const Donation: React.FC = () => {
                   </div>
                 </div>
                 <button
-                  className="bg-yellow-500 rounded-xl text-indigo-950 py-2 text-lg font-semibold w-full hover:font-bold hover:bg-yellow-400"
+                  className="bg-yellow-500 rounded-xl text-indigo-800 py-2 text-lg font-semibold w-full hover:font-bold hover:bg-yellow-400"
                   onClick={clickHandler}
                 >
                   Donasi Sekarang
@@ -118,7 +118,7 @@ const Donation: React.FC = () => {
 
         {/* CONTENT-SM-MD */}
         <div className="hidden xl:block p-6">
-          <div className="bg-indigo-950 rounded-3xl">
+          <div className="bg-indigo-800">
             <div className="grid grid-cols-2">
               <div className="flex flex-col justify-between items-center text-sm p-6">
                 <div>
@@ -164,7 +164,7 @@ const Donation: React.FC = () => {
                   </div>
                 </div>
                 <button
-                  className="bg-yellow-500 rounded-xl text-indigo-950 py-2 text-lg font-semibold w-full hover:font-bold hover:bg-yellow-400"
+                  className="bg-yellow-500 rounded-xl text-indigo-800 py-2 text-lg font-semibold w-full hover:font-bold hover:bg-yellow-400"
                   onClick={clickHandler}
                 >
                   Donasi Sekarang
