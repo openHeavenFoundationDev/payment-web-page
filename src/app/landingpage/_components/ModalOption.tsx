@@ -18,9 +18,12 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [province, setProvince] = useState<string>("");
+  const [city, setCity] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [postal, setPostal] = useState<string>("");
   const [view, setView] = useState<number>(0);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const clearView = () => {
     setView(0);
@@ -35,8 +38,11 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
     setPhoneNumber("");
     setAddress("");
     setPhoneNumber("");
+    setProvince("");
+    setCity("");
     setAddress("");
     setPostal("");
+    setErrorMessage("");
   };
 
   const handleTx = async (amount: number, qty: number, typeTx: string) => {
@@ -119,6 +125,26 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
     setPhoneNumber(phoneNumber);
   };
 
+  const provinceHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    const provinceNumber = e.target.value;
+    setProvince(provinceNumber);
+  };
+
+  const cityHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    const city = e.target.value;
+    setCity(city);
+  };
+
+  const postalHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const postal = e.target.value;
+    setPostal(postal);
+  };
+
+  const addressHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const address = e.target.value;
+    setAddress(address);
+  };
+
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -133,6 +159,42 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
       return false;
     }
     return true;
+  };
+
+  const validateForm1 = () => {
+    const validEmail = validateEmail(email);
+    const validPhoneNumber = validatePhoneNumber(phoneNumber);
+
+    if (size === "" || name === "" || email === "" || phoneNumber === "") {
+      setErrorMessage("Semua kolom wajib diisi");
+    } else if (qty === 0) {
+      setErrorMessage("Quantity tidak boleh nol");
+    } else if (!validEmail) {
+      setErrorMessage("Format email tidak valid");
+    } else if (!validPhoneNumber) {
+      setErrorMessage("Format no Hp tidak valid");
+    } else {
+      setErrorMessage("");
+      setView(5);
+    }
+  };
+
+  const validateForm2 = () => {
+    const validEmail = validateEmail(email);
+    const validPhoneNumber = validatePhoneNumber(phoneNumber);
+
+    if (name === "" || email === "" || phoneNumber === "") {
+      setErrorMessage("Semua kolom wajib diisi");
+    } else if (qty === 0) {
+      setErrorMessage("Quantity tidak boleh nol");
+    } else if (!validEmail) {
+      setErrorMessage("Format email tidak valid");
+    } else if (!validPhoneNumber) {
+      setErrorMessage("Format no Hp tidak valid");
+    } else {
+      setErrorMessage("");
+      setView(7);
+    }
   };
 
   if (!isVisible) return null;
@@ -160,7 +222,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                 }}
               />
             </div>
-            <div className="pt-6 md:pb-8 px-8">
+            <div className="pt-2 md:pb-8 px-8">
               {/* HOME */}
               {view === 0 && (
                 <div>
@@ -356,7 +418,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                       <div>
                         <button
                           className="bg-yellow-500 rounded-xl text-indigo-950 py-2 text-sm font-semibold w-full hover:bg-yellow-400"
-                          onClick={() => setView(5)}
+                          onClick={() => setView(6)}
                         >
                           Pesan Sekarang
                         </button>
@@ -375,6 +437,11 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
               {/* FORM T-SHIRT */}
               {view === 4 && (
                 <div className="text-start text-sm w-full md:w-80">
+                  {/* ERROR MESSAGE */}
+                  <p className="text-sm text-center font-bold text-red-500 h-5 mb-1">
+                    {errorMessage}
+                  </p>
+
                   {/* Item */}
                   <div className="border-2 border-indigo-800 rounded-xl mb-3">
                     <b className="px-3 text-xs">Item</b>
@@ -405,7 +472,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                     <b className="px-3 text-xs">Quantity</b>
                     <input
                       type="number"
-                      min="1"
+                      min="0"
                       value={qty}
                       placeholder="x0"
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
@@ -452,86 +519,9 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
 
                   <button
                     className="border-2 border-indigo-950 hover:border-indigo-600 bg-yellow-500 hover:bg-yellow-400 rounded-xl text-indigo-950 py-2 font-semibold w-full mb-3"
-                    onClick={() => setView(6)}
-                  >
-                    Pengiriman
-                  </button>
-                  <button
-                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-600 hover:border-indigo-600"
                     onClick={() => {
-                      clearParam();
-                      setView(3);
+                      validateForm1();
                     }}
-                  >
-                    Kembali
-                  </button>
-                </div>
-              )}
-
-              {/* TOPI BASEBALL */}
-              {view === 5 && (
-                <div className="text-start text-sm w-full md:w-80">
-                  {/* Item */}
-                  <div className="border-2 border-indigo-800 rounded-xl mb-3">
-                    <b className="px-3 text-xs">Item</b>
-                    <div className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl">
-                      Topi Baseball - Rp {qty * 50000}
-                    </div>
-                  </div>
-
-                  {/* QUANTITY */}
-                  <div className="border-2 border-indigo-800 rounded-xl mb-3">
-                    <b className="px-3 text-xs">Quantity</b>
-                    <input
-                      type="number"
-                      min="1"
-                      value={qty}
-                      placeholder="x0"
-                      className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
-                      required
-                      onChange={qtyHandler}
-                    />
-                  </div>
-
-                  {/* NAME */}
-                  <div className="border-2 border-indigo-800 rounded-xl mb-3">
-                    <b className="px-3 text-xs">Nama</b>
-                    <input
-                      type="text"
-                      value={name}
-                      placeholder="Nama Lengkap"
-                      className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
-                      onChange={nameHandler}
-                    />
-                  </div>
-
-                  {/* EMAIL */}
-                  <div className="border-2 border-indigo-800 rounded-xl mb-3">
-                    <b className="px-3 text-xs">Email</b>
-                    <input
-                      type="email"
-                      value={email}
-                      placeholder="name@example.com"
-                      className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
-                      onChange={emailHandler}
-                    />
-                  </div>
-
-                  {/* PHONE NUMBER */}
-                  <div className="border-2 border-indigo-800 rounded-xl mb-6">
-                    <b className="px-3 text-xs">No HP & WA yang Aktif</b>
-                    <input
-                      type="tel"
-                      value={phoneNumber}
-                      placeholder="0851XXXXXX"
-                      className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
-                      onChange={phoneHandler}
-                    />
-                  </div>
-
-                  <button
-                    className="border-2 border-indigo-950 hover:border-indigo-600 bg-yellow-500 hover:bg-yellow-400 rounded-xl text-indigo-950 py-2 font-semibold w-full mb-3"
-                    onClick={() => setView(7)}
                   >
                     Pengiriman
                   </button>
@@ -548,35 +538,31 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
               )}
 
               {/* PENGIRIMAN T-SHIRT */}
-              {view === 6 && (
+              {view === 5 && (
                 <div className="text-start text-sm w-full md:w-80">
                   {/* PROVINSI */}
                   <div className="border-2 border-indigo-800 rounded-xl mb-3">
-                    <b className="px-3 text-xs">Pilih Provinsi</b>
+                    <b className="px-3 text-xs">Provinsi</b>
                     <select
+                      value={province}
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
-                      onChange={sizeHandler}
+                      onChange={provinceHandler}
                     >
-                      <option value="S">S</option>
-                      <option value="M">M</option>
-                      <option value="L">L</option>
-                      <option value="XL">XL</option>
+                      <option value="">Pilih Provinsi</option>
                     </select>
                   </div>
 
                   {/* KOTA / KABUPATEN */}
                   <div className="border-2 border-indigo-800 rounded-xl mb-3">
-                    <b className="px-3 text-xs">Pilih Kota / Kabupaten</b>
+                    <b className="px-3 text-xs">Kota / Kabupaten</b>
                     <select
+                      value={city}
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
-                      onChange={sizeHandler}
+                      onChange={cityHandler}
                     >
-                      <option value="S">S</option>
-                      <option value="M">M</option>
-                      <option value="L">L</option>
-                      <option value="XL">XL</option>
+                      <option value="">Pilih Kota / Kabupaten</option>
                     </select>
                   </div>
 
@@ -585,9 +571,10 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                     <b className="px-3 text-xs">Kode Pos</b>
                     <input
                       type="text"
-                      placeholder="91010"
+                      value={postal}
+                      placeholder="80119"
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
-                      // onChange={qtyHandler}
+                      onChange={postalHandler}
                     />
                   </div>
 
@@ -596,15 +583,16 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                     <b className="px-3 text-xs">Alamat Lengkap</b>
                     <textarea
                       rows={4}
-                      placeholder=""
+                      value={address}
+                      placeholder=" Jl. Kerta Pura No.25, Pemecutan Klod, Denpasar Barat, Kota Denpasar, Bali. "
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
-                      // onChange={qtyHandler}
+                      onChange={addressHandler}
                     />
                   </div>
 
                   <button
                     className="border-2 border-indigo-950 hover:border-indigo-600 bg-yellow-500 hover:bg-yellow-400 rounded-xl text-indigo-950 py-2 font-semibold w-full mb-3"
-                    onClick={() => setView(6)}
+                    // onClick={() => setView(0)}
                   >
                     Submit
                   </button>
@@ -617,36 +605,118 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                 </div>
               )}
 
+              {/* FORM TOPI BASEBALL */}
+              {view === 6 && (
+                <div className="text-start text-sm w-full md:w-80">
+                  {/* ERROR MESSAGE */}
+                  <p className="text-sm text-center font-bold text-red-500 h-5 mb-1">
+                    {errorMessage}
+                  </p>
+
+                  {/* Item */}
+                  <div className="border-2 border-indigo-800 rounded-xl mb-3">
+                    <b className="px-3 text-xs">Item</b>
+                    <div className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl">
+                      Topi Baseball - Rp {qty * 50000}
+                    </div>
+                  </div>
+
+                  {/* QUANTITY */}
+                  <div className="border-2 border-indigo-800 rounded-xl mb-3">
+                    <b className="px-3 text-xs">Quantity</b>
+                    <input
+                      type="number"
+                      min="0"
+                      value={qty}
+                      placeholder="x0"
+                      className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
+                      required
+                      onChange={qtyHandler}
+                    />
+                  </div>
+
+                  {/* NAME */}
+                  <div className="border-2 border-indigo-800 rounded-xl mb-3">
+                    <b className="px-3 text-xs">Nama</b>
+                    <input
+                      type="text"
+                      value={name}
+                      placeholder="Nama Lengkap"
+                      className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
+                      onChange={nameHandler}
+                    />
+                  </div>
+
+                  {/* EMAIL */}
+                  <div className="border-2 border-indigo-800 rounded-xl mb-3">
+                    <b className="px-3 text-xs">Email</b>
+                    <input
+                      type="email"
+                      value={email}
+                      placeholder="name@example.com"
+                      className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
+                      onChange={emailHandler}
+                    />
+                  </div>
+
+                  {/* PHONE NUMBER */}
+                  <div className="border-2 border-indigo-800 rounded-xl mb-6">
+                    <b className="px-3 text-xs">No HP & WA yang Aktif</b>
+                    <input
+                      type="tel"
+                      value={phoneNumber}
+                      placeholder="0851XXXXXX"
+                      className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
+                      onChange={phoneHandler}
+                    />
+                  </div>
+
+                  <button
+                    className="border-2 border-indigo-950 hover:border-indigo-600 bg-yellow-500 hover:bg-yellow-400 rounded-xl text-indigo-950 py-2 font-semibold w-full mb-3"
+                    onClick={() => {
+                      validateForm2();
+                    }}
+                  >
+                    Pengiriman
+                  </button>
+                  <button
+                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-600 hover:border-indigo-600"
+                    onClick={() => {
+                      clearParam();
+                      setView(3);
+                    }}
+                  >
+                    Kembali
+                  </button>
+                </div>
+              )}
+
               {/* PENGIRIMAN TOPI */}
               {view === 7 && (
                 <div className="text-start text-sm w-full md:w-80">
                   {/* PROVINSI */}
                   <div className="border-2 border-indigo-800 rounded-xl mb-3">
-                    <b className="px-3 text-xs">Pilih Provinsi</b>
+                    <b className="px-3 text-xs">Provinsi</b>
                     <select
+                      value={province}
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
-                      onChange={sizeHandler}
+                      onChange={provinceHandler}
                     >
-                      <option value="S">S</option>
-                      <option value="M">M</option>
-                      <option value="L">L</option>
-                      <option value="XL">XL</option>
+                      <option value="">Pilih Provinsi</option>
                     </select>
                   </div>
 
                   {/* KOTA / KABUPATEN */}
                   <div className="border-2 border-indigo-800 rounded-xl mb-3">
-                    <b className="px-3 text-xs">Pilih Kota / Kabupaten</b>
+                    <b className="px-3 text-xs">Kota / Kabupaten</b>
                     <select
+                      value={city}
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
-                      onChange={sizeHandler}
+                      onChange={cityHandler}
                     >
-                      <option value="S">S</option>
-                      <option value="M">M</option>
-                      <option value="L">L</option>
-                      <option value="XL">XL</option>
+                      <option value="">Pilih Kota / Kabupaten</option>
                     </select>
                   </div>
 
@@ -655,9 +725,10 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                     <b className="px-3 text-xs">Kode Pos</b>
                     <input
                       type="text"
-                      placeholder="91010"
+                      value={postal}
+                      placeholder="80119"
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
-                      // onChange={qtyHandler}
+                      onChange={postalHandler}
                     />
                   </div>
 
@@ -666,21 +737,22 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                     <b className="px-3 text-xs">Alamat Lengkap</b>
                     <textarea
                       rows={4}
-                      placeholder=""
+                      value={address}
+                      placeholder=" Jl. Kerta Pura No.25, Pemecutan Klod, Denpasar Barat, Kota Denpasar, Bali. "
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
-                      // onChange={qtyHandler}
+                      onChange={addressHandler}
                     />
                   </div>
 
                   <button
                     className="border-2 border-indigo-950 hover:border-indigo-600 bg-yellow-500 hover:bg-yellow-400 rounded-xl text-indigo-950 py-2 font-semibold w-full mb-3"
-                    onClick={() => setView(6)}
+                    // onClick={() => setView(6)}
                   >
                     Submit
                   </button>
                   <button
                     className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-600 hover:border-indigo-600"
-                    onClick={() => setView(5)}
+                    onClick={() => setView(6)}
                   >
                     Kembali
                   </button>
