@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +7,31 @@ import generateOrderId from "@/utils/generateOrderId";
 interface ModalOptionProps {
   closeModal: () => void;
   isVisible: boolean;
+}
+
+interface Provinces {
+  province_id: string;
+  province: string;
+}
+
+interface Cities {
+  city_id: string;
+  province_id: string;
+  province: string;
+  type: string;
+  city_name: string;
+}
+
+interface DeliveryCost {
+  value: number;
+  etd: string;
+  note: string;
+}
+
+interface DeliveryCosts {
+  service: string;
+  description: string;
+  cost: DeliveryCost[];
 }
 
 const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
@@ -18,16 +43,25 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [province, setProvince] = useState<string>("");
-  const [city, setCity] = useState<string>("");
+  const [provinceid, setprovinceid] = useState<string>("null");
+  const [cityid, setcityid] = useState<string>("null");
   const [address, setAddress] = useState<string>("");
   const [postal, setPostal] = useState<string>("");
   const [view, setView] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
-
-  const clearView = () => {
-    setView(0);
-  };
+  const [provinceList, setProvinceList] = useState<Provinces[]>([
+    { province_id: "", province: "" },
+  ]);
+  const [cityList, setCityList] = useState<Cities[]>([
+    { city_id: "", province_id: "", province: "", type: "", city_name: "" },
+  ]);
+  const [jneDelivery, setJneDelivery] = useState<DeliveryCosts[]>([
+    {
+      service: "",
+      description: "",
+      cost: [{ value: 0, etd: "", note: "" }],
+    },
+  ]);
 
   const clearParam = () => {
     setAmount_(0);
@@ -36,13 +70,97 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
     setName("");
     setEmail("");
     setPhoneNumber("");
-    setAddress("");
-    setPhoneNumber("");
-    setProvince("");
-    setCity("");
+    setprovinceid("null");
+    setcityid("null");
     setAddress("");
     setPostal("");
     setErrorMessage("");
+    setCityList([]);
+    setJneDelivery([]);
+  };
+
+  useEffect(() => {
+    getProvinces();
+  }, []);
+
+  useEffect(() => {
+    getCities();
+  }, [provinceid]);
+
+  useEffect(() => {
+    getDelivery();
+  }, [cityid]);
+
+  const getProvinces = async () => {
+    setProvinceList([]);
+
+    const getResponse = await fetch("/api/rajaongkir/provinces", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const response = await getResponse.json();
+    const data = response.data.rajaongkir.results;
+    console.log(data);
+    setProvinceList(data);
+  };
+
+  const getCities = async () => {
+    setCityList([]);
+
+    const getResponse = await fetch(`/api/rajaongkir/city/${provinceid}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    const response = await getResponse.json();
+
+    if (response.data === null) {
+      return;
+    } else {
+      const data = response.data.rajaongkir.results;
+      console.log(data);
+      setCityList(data);
+    }
+  };
+
+  const getDelivery = async () => {
+    setJneDelivery([]);
+    const body = {
+      origin: 114,
+      destination: cityid,
+      weight: 1000,
+      courier: "jne",
+    };
+
+    const getResponse = await fetch(`/api/rajaongkir/delivery`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    const response = await getResponse.json();
+
+    if (response.data === null) {
+      return;
+    } else {
+      const data = response.data.rajaongkir.results[0].costs;
+      console.log(data);
+      setJneDelivery(data);
+    }
+  };
+
+  const clearView = () => {
+    setView(0);
   };
 
   const handleTx = async (amount: number, qty: number, typeTx: string) => {
@@ -126,13 +244,14 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
   };
 
   const provinceHandler = (e: ChangeEvent<HTMLSelectElement>) => {
-    const provinceNumber = e.target.value;
-    setProvince(provinceNumber);
+    const provinceid = e.target.value;
+    setprovinceid(provinceid);
   };
 
   const cityHandler = (e: ChangeEvent<HTMLSelectElement>) => {
-    const city = e.target.value;
-    setCity(city);
+    const cityid = e.target.value;
+    console.log("cityid", cityid);
+    setcityid(cityid);
   };
 
   const postalHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -218,6 +337,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                 className=" rounded-none md:rounded-full mt-4 mr-4 md:mt-1 md:mr-1"
                 onClick={() => {
                   clearView();
+                  clearParam();
                   closeModal();
                 }}
               />
@@ -544,12 +664,16 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   <div className="border-2 border-indigo-800 rounded-xl mb-3">
                     <b className="px-3 text-xs">Provinsi</b>
                     <select
-                      value={province}
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
                       onChange={provinceHandler}
                     >
                       <option value="">Pilih Provinsi</option>
+                      {provinceList.map((data) => (
+                        <option key={data.province_id} value={data.province_id}>
+                          {data.province}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -557,12 +681,16 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   <div className="border-2 border-indigo-800 rounded-xl mb-3">
                     <b className="px-3 text-xs">Kota / Kabupaten</b>
                     <select
-                      value={city}
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
                       onChange={cityHandler}
                     >
                       <option value="">Pilih Kota / Kabupaten</option>
+                      {cityList.map((data) => (
+                        <option key={data.city_id} value={data.city_id}>
+                          {`${data.type} ${data.city_name}`}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -579,7 +707,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   </div>
 
                   {/* ADDRESS */}
-                  <div className="border-2 border-indigo-800 rounded-xl mb-6">
+                  <div className="border-2 border-indigo-800 rounded-xl mb-3">
                     <b className="px-3 text-xs">Alamat Lengkap</b>
                     <textarea
                       rows={4}
@@ -588,6 +716,23 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
                       onChange={addressHandler}
                     />
+                  </div>
+
+                  {/* PENGIRIMAN */}
+                  <div className="border-2 border-indigo-800 rounded-xl mb-6">
+                    <b className="px-3 text-xs">Kurir</b>
+                    <select
+                      className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
+                      required
+                      //onChange={cityHandler}
+                    >
+                      <option value="">Pilih Pengiriman</option>
+                      {jneDelivery.map((data) => (
+                        <option key={data.service} value={data.cost[0].value}>
+                          {`JNE ${data.service} (Rp ${data.cost[0].value}) (${data.cost[0].etd} hari)`}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <button
@@ -698,7 +843,6 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   <div className="border-2 border-indigo-800 rounded-xl mb-3">
                     <b className="px-3 text-xs">Provinsi</b>
                     <select
-                      value={province}
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
                       onChange={provinceHandler}
@@ -711,7 +855,6 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   <div className="border-2 border-indigo-800 rounded-xl mb-3">
                     <b className="px-3 text-xs">Kota / Kabupaten</b>
                     <select
-                      value={city}
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
                       onChange={cityHandler}
