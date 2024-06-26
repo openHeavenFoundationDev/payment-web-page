@@ -192,13 +192,13 @@ const Donation: React.FC = () => {
         <Link
           href={waPsKevin}
           target="_blank"
-          className="flex justify-center items-center hover:text-yellow-500 mb-3"
+          className="flex justify-center items-center hover:text-yellow-500 mb-5"
         >
           <Image
             src="/callcenter.png"
             alt="Map"
-            width={24}
-            height={24}
+            width={21}
+            height={21}
             className="mr-2 rounded-full"
           />
           <p>
@@ -208,13 +208,13 @@ const Donation: React.FC = () => {
         <Link
           href={mapCabangBali}
           target="_blank"
-          className="flex justify-center items-center hover:text-yellow-500 mb-3"
+          className="flex justify-center items-center hover:text-yellow-500 mb-5"
         >
           <Image
             src="/map.png"
             alt="Map"
-            width={24}
-            height={24}
+            width={21}
+            height={21}
             className="mr-2"
           />
           <p>
@@ -225,13 +225,13 @@ const Donation: React.FC = () => {
         <Link
           href={mapSorong}
           target="_blank"
-          className="flex justify-center items-center hover:text-yellow-400 mb-3"
+          className="flex justify-center items-center hover:text-yellow-400 mb-5"
         >
           <Image
             src="/map.png"
             alt="Map"
-            width={24}
-            height={24}
+            width={21}
+            height={21}
             className="mr-2"
           />
           <p>
@@ -242,7 +242,7 @@ const Donation: React.FC = () => {
         <Link
           href={gdAkta}
           target="_blank"
-          className="flex justify-center items-center hover:text-yellow-400 mb-3"
+          className="flex justify-center items-center hover:text-yellow-400 mb-5"
         >
           <p>
             Akta Pendirian Oleh Yupi Nurlia Dewi, S.H., M.Kn. No.5 - 05 Januari
@@ -252,14 +252,14 @@ const Donation: React.FC = () => {
         <Link
           href={gdSK}
           target="_blank"
-          className="flex justify-center items-center hover:text-yellow-400 mb-3"
+          className="flex justify-center items-center hover:text-yellow-400 mb-5"
         >
           <p>SK Kemenkeuham: AHU-0000500.AH.01.04.2023</p>
         </Link>
         <Link
           href={gdNpwp}
           target="_blank"
-          className="flex justify-center items-center hover:text-yellow-400 mb-3"
+          className="flex justify-center items-center hover:text-yellow-400 mb-5"
         >
           <p>NPWP: 62.369.514.5-951.001</p>
         </Link>
