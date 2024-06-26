@@ -6,9 +6,11 @@ import Link from "next/link";
 import Carousel from "../_components/Carousel";
 import ModalOption from "../_components/ModalOption";
 
+const waPsKevin = "https://api.whatsapp.com/send/?phone=6285156326343";
+const mapCabangBali =
+  "https://www.google.com/maps/@-8.684978,115.191756,3a,75y,135.64h,82.39t/data=!3m7!1e1!3m5!1stshoeXzlFXy9Y7ZocBveTg!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fpanoid%3DtshoeXzlFXy9Y7ZocBveTg%26cb_client%3Dmaps_sv.share%26w%3D900%26h%3D600%26yaw%3D135.636870919836%26pitch%3D7.613171239176609%26thumbfov%3D90!7i16384!8i8192?coh=205410&entry=ttu";
 const mapSorong =
   "https://www.google.com/maps/@-0.9016933,131.3164105,52m/data=!3m1!1e3?entry=ttu";
-
 const gdAkta =
   "https://drive.google.com/file/d/1jydoLv20Oh8-FfGxsC1aE3E4aa9UtEsv/view?usp=sharing";
 const gdSK =
@@ -188,9 +190,42 @@ const Donation: React.FC = () => {
       {/* -----FOOTER----- */}
       <footer className="bg-black font-semibold text-white text-center text-sm md:text-md p-6">
         <Link
+          href={waPsKevin}
+          target="_blank"
+          className="flex justify-center items-center hover:text-yellow-500 mb-3"
+        >
+          <Image
+            src="/callcenter.png"
+            alt="Map"
+            width={24}
+            height={24}
+            className="mr-2 rounded-full"
+          />
+          <p>
+            Contact Admin
+          </p>
+        </Link>
+        <Link
+          href={mapCabangBali}
+          target="_blank"
+          className="flex justify-center items-center hover:text-yellow-500 mb-3"
+        >
+          <Image
+            src="/map.png"
+            alt="Map"
+            width={24}
+            height={24}
+            className="mr-2"
+          />
+          <p>
+            Kantor Cabang Bali: Jl.Kertapura Gg.Segina No.25 Pemecutan Klod
+            Denpasar
+          </p>
+        </Link>
+        <Link
           href={mapSorong}
           target="_blank"
-          className="flex justify-center items-center hover:text-yellow-400 mb-5"
+          className="flex justify-center items-center hover:text-yellow-400 mb-3"
         >
           <Image
             src="/map.png"
@@ -207,7 +242,7 @@ const Donation: React.FC = () => {
         <Link
           href={gdAkta}
           target="_blank"
-          className="flex justify-center items-center hover:text-yellow-400 mb-5"
+          className="flex justify-center items-center hover:text-yellow-400 mb-3"
         >
           <p>
             Akta Pendirian Oleh Yupi Nurlia Dewi, S.H., M.Kn. No.5 - 05 Januari
@@ -217,14 +252,14 @@ const Donation: React.FC = () => {
         <Link
           href={gdSK}
           target="_blank"
-          className="flex justify-center items-center hover:text-yellow-400 mb-5"
+          className="flex justify-center items-center hover:text-yellow-400 mb-3"
         >
           <p>SK Kemenkeuham: AHU-0000500.AH.01.04.2023</p>
         </Link>
         <Link
           href={gdNpwp}
           target="_blank"
-          className="flex justify-center items-center hover:text-yellow-400 mb-5"
+          className="flex justify-center items-center hover:text-yellow-400 mb-3"
         >
           <p>NPWP: 62.369.514.5-951.001</p>
         </Link>
