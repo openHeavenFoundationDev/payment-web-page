@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import generateOrderId from "@/utils/generateOrderId";
+import splitName from "@/utils/splitName";
 
 interface ModalOptionProps {
   closeModal: () => void;
@@ -62,6 +63,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
       cost: [{ value: 0, etd: "", note: "" }],
     },
   ]);
+  const [deliveryCost, setDeliveryCost] = useState<number>(0);
 
   const clearParam = () => {
     setAmount_(0);
@@ -77,6 +79,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
     setErrorMessage("");
     setCityList([]);
     setJneDelivery([]);
+    setDeliveryCost(0);
   };
 
   useEffect(() => {
@@ -163,9 +166,9 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
     setView(0);
   };
 
-  const handleTx = async (amount: number, qty: number, typeTx: string) => {
+  const handleTx1 = async (amount: number, typeTx: string) => {
     setLoading(true);
-    const _amount = amount === 0 ? amount_ : amount * qty;
+    const _amount = amount === 0 ? amount_ : amount;
 
     try {
       const body = {
@@ -176,6 +179,65 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
       };
 
       const response = await fetch(`/api/payment/tx1`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        const log: { route: string; line: number; message: string } = {
+          route: "/landingpage/_components/ModalDonation",
+          line: 50,
+          message: "Something went wrong, failed to fetch data to midtrans.",
+        };
+        console.error(log);
+        router.push("/error/donation");
+        clearView();
+      } else {
+        const payload = await response.json();
+        const paymentUrl = payload.data.redirect_url;
+        router.push(paymentUrl);
+        clearView();
+      }
+    } catch (error) {
+      const log = {
+        route: "/landingpage/_components/ModalDonation",
+        line: 63,
+        message: "An unknown error occurred",
+      };
+      if (error instanceof Error) {
+        log.message = error.message;
+      }
+      console.error(log);
+      router.push("/error/donation");
+      clearView();
+    }
+  };
+
+  const handleTx2 = async (amount: number, typeTx: string) => {
+    setLoading(true);
+
+    try {
+      const orderId = generateOrderId(typeTx.toUpperCase());
+      const { firstName, lastName } = splitName(name);
+
+      const body = {
+        txType: typeTx.toLowerCase(),
+        orderId: orderId,
+        item: typeTx === "MCDS1" ? `Casual T-Shirt ${size}` : "Topi Baseball",
+        qty: qty,
+        price: typeTx === "MCDS1" ? 150000 : 50000, 
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phoneNumber: phoneNumber,
+        address: address,
+        grossAmount: amount,
+      };
+
+      const response = await fetch(`/api/payment/tx2`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -264,6 +326,11 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
     setAddress(address);
   };
 
+  const deliveryCostHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+    const deliveryCost = parseInt(e.target.value);
+    setDeliveryCost(deliveryCost);
+  };
+
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -312,7 +379,37 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
       setErrorMessage("Format no Hp tidak valid");
     } else {
       setErrorMessage("");
-      setView(7);
+      setView(8);
+    }
+  };
+
+  const validateForm3 = () => {
+    if (
+      provinceid === "null" ||
+      cityid === "null" ||
+      postal === "" ||
+      address === "" ||
+      deliveryCost === 0
+    ) {
+      setErrorMessage("Semua kolom wajib diisi");
+    } else {
+      setErrorMessage("");
+      setView(6);
+    }
+  };
+
+  const validateForm4 = () => {
+    if (
+      provinceid === "null" ||
+      cityid === "null" ||
+      postal === "" ||
+      address === "" ||
+      deliveryCost === 0
+    ) {
+      setErrorMessage("Semua kolom wajib diisi");
+    } else {
+      setErrorMessage("");
+      setView(9);
     }
   };
 
@@ -377,7 +474,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   <button
                     className="bg-yellow-500 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:bg-yellow-400 mb-4"
                     onClick={() => {
-                      handleTx(50000, 1, "DNS");
+                      handleTx1(50000, "DNS");
                     }}
                   >
                     Donasi Rp 50.000
@@ -385,7 +482,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   <button
                     className="bg-yellow-500 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:bg-yellow-400 mb-4"
                     onClick={() => {
-                      handleTx(100000, 1, "DNS");
+                      handleTx1(100000, "DNS");
                     }}
                   >
                     Donasi Rp 100.000
@@ -393,7 +490,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   <button
                     className="bg-yellow-500 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:bg-yellow-400 mb-4"
                     onClick={() => {
-                      handleTx(250000, 1, "DNS");
+                      handleTx1(250000, "DNS");
                     }}
                   >
                     Donasi Rp 250.000
@@ -401,7 +498,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   <button
                     className="bg-yellow-500 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:bg-yellow-400 mb-4"
                     onClick={() => {
-                      handleTx(500000, 1, "DNS");
+                      handleTx1(500000, "DNS");
                     }}
                   >
                     Donasi Rp 500.000
@@ -409,7 +506,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   <button
                     className="bg-yellow-500 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:bg-yellow-400 mb-4"
                     onClick={() => {
-                      handleTx(1000000, 1, "DNS");
+                      handleTx1(1000000, "DNS");
                     }}
                   >
                     Donasi Rp 1000.000
@@ -441,7 +538,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                     />
                     <button
                       className=" bg-yellow-500 rounded-xl text-indigo-950 px-3 py-2 font-semibold w-full hover:bg-yellow-400"
-                      onClick={() => handleTx(0, 1, "DNS")}
+                      onClick={() => handleTx1(0, "DNS")}
                     >
                       Submit
                     </button>
@@ -538,7 +635,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                       <div>
                         <button
                           className="bg-yellow-500 rounded-xl text-indigo-950 py-2 text-sm font-semibold w-full hover:bg-yellow-400"
-                          onClick={() => setView(6)}
+                          onClick={() => setView(7)}
                         >
                           Pesan Sekarang
                         </button>
@@ -660,12 +757,18 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
               {/* PENGIRIMAN T-SHIRT */}
               {view === 5 && (
                 <div className="text-start text-sm w-full md:w-80">
+                  {/* ERROR MESSAGE */}
+                  <p className="text-sm text-center font-bold text-red-500 h-5 mb-1">
+                    {errorMessage}
+                  </p>
+
                   {/* PROVINSI */}
                   <div className="border-2 border-indigo-800 rounded-xl mb-3">
                     <b className="px-3 text-xs">Provinsi</b>
                     <select
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
+                      value={provinceid}
                       onChange={provinceHandler}
                     >
                       <option value="">Pilih Provinsi</option>
@@ -683,6 +786,7 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                     <select
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
+                      value={cityid}
                       onChange={cityHandler}
                     >
                       <option value="">Pilih Kota / Kabupaten</option>
@@ -712,19 +816,20 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                     <textarea
                       rows={4}
                       value={address}
-                      placeholder=" Jl. Kerta Pura No.25, Pemecutan Klod, Denpasar Barat, Kota Denpasar, Bali. "
+                      placeholder="Jl. Kerta Pura No.25, Pemecutan Klod, Denpasar Barat, Kota Denpasar, Bali. "
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
                       onChange={addressHandler}
                     />
                   </div>
 
-                  {/* PENGIRIMAN */}
+                  {/* PENGIRIMAN T-SHIRT*/}
                   <div className="border-2 border-indigo-800 rounded-xl mb-6">
                     <b className="px-3 text-xs">Kurir</b>
                     <select
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
+                      value={deliveryCost}
                       required
-                      //onChange={cityHandler}
+                      onChange={deliveryCostHandler}
                     >
                       <option value="">Pilih Pengiriman</option>
                       {jneDelivery.map((data) => (
@@ -737,9 +842,9 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
 
                   <button
                     className="border-2 border-indigo-950 hover:border-indigo-600 bg-yellow-500 hover:bg-yellow-400 rounded-xl text-indigo-950 py-2 font-semibold w-full mb-3"
-                    // onClick={() => setView(0)}
+                    onClick={() => validateForm3()}
                   >
-                    Submit
+                    Checkout
                   </button>
                   <button
                     className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-600 hover:border-indigo-600"
@@ -750,8 +855,65 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                 </div>
               )}
 
-              {/* FORM TOPI BASEBALL */}
+              {/* Checkout T-SHIRT */}
               {view === 6 && (
+                <div className="text-start text-sm w-full md:w-80">
+                  <h1 className="font-bold text-lg text-center mb-3">
+                    Periksa Kembali Pesanan Anda
+                  </h1>
+                  <div className="border-2 border-indigo-600 rounded-2xl text-xs py-2 px-4 gap-3 mb-6">
+                    <h3 className="font-bold mb-1">CUSTOMER</h3>
+                    <div className="grid grid-cols-2 gap-1 mb-3">
+                      <p>Nama</p>
+                      <p className="font-semibold">{name}</p>
+                      <p>Email</p>
+                      <p className="font-semibold">{email}</p>
+                      <p>No HP & WA </p>
+                      <p className="font-semibold">{phoneNumber}</p>
+                    </div>
+                    <h3 className="font-bold mb-1">DELIVERY</h3>
+                    <div className="grid grid-cols-2 gap-1 mb-3">
+                      <p>Alamat</p>
+                      <p className="font-semibold">{address}</p>
+                      <p>Kode Pos</p>
+                      <p className="font-semibold">{postal}</p>
+                    </div>
+                    <h3 className="font-bold mb-1">ORDER</h3>
+                    <div className="grid grid-cols-2 gap-1 mb-3">
+                      <p>
+                        T-Shirt Size-{size} {qty}x
+                      </p>
+                      <p className="font-semibold">Rp {qty * 150000}</p>
+                      <p>Ongkir</p>
+                      <p className="font-semibold">Rp {deliveryCost}</p>
+                    </div>
+                    <hr className="border border-indigo-800 mb-2"></hr>
+                    <div className="grid grid-cols-2 gap-1">
+                      <p className="font-bold">TOTAL</p>
+                      <p className="font-semibold">
+                        Rp {qty * 150000 + deliveryCost}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    className="border-2 border-indigo-950 hover:border-indigo-600 bg-yellow-500 hover:bg-yellow-400 rounded-xl text-indigo-950 py-2 font-semibold w-full mb-3"
+                    onClick={() =>
+                      handleTx2(qty * 150000 + deliveryCost, "MCDS1")
+                    }
+                  >
+                    Bayar Sekarang
+                  </button>
+                  <button
+                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-600 hover:border-indigo-600"
+                    onClick={() => setView(5)}
+                  >
+                    Kembali
+                  </button>
+                </div>
+              )}
+
+              {/* FORM TOPI BASEBALL */}
+              {view === 7 && (
                 <div className="text-start text-sm w-full md:w-80">
                   {/* ERROR MESSAGE */}
                   <p className="text-sm text-center font-bold text-red-500 h-5 mb-1">
@@ -837,17 +999,28 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
               )}
 
               {/* PENGIRIMAN TOPI */}
-              {view === 7 && (
+              {view === 8 && (
                 <div className="text-start text-sm w-full md:w-80">
+                  {/* ERROR MESSAGE */}
+                  <p className="text-sm text-center font-bold text-red-500 h-5 mb-1">
+                    {errorMessage}
+                  </p>
+
                   {/* PROVINSI */}
                   <div className="border-2 border-indigo-800 rounded-xl mb-3">
                     <b className="px-3 text-xs">Provinsi</b>
                     <select
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
+                      value={provinceid}
                       onChange={provinceHandler}
                     >
                       <option value="">Pilih Provinsi</option>
+                      {provinceList.map((data) => (
+                        <option key={data.province_id} value={data.province_id}>
+                          {data.province}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -857,9 +1030,15 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                     <select
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
                       required
+                      value={cityid}
                       onChange={cityHandler}
                     >
                       <option value="">Pilih Kota / Kabupaten</option>
+                      {cityList.map((data) => (
+                        <option key={data.city_id} value={data.city_id}>
+                          {`${data.type} ${data.city_name}`}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -876,26 +1055,101 @@ const ModalOption: React.FC<ModalOptionProps> = ({ closeModal, isVisible }) => {
                   </div>
 
                   {/* ADDRESS */}
-                  <div className="border-2 border-indigo-800 rounded-xl mb-6">
+                  <div className="border-2 border-indigo-800 rounded-xl mb-3">
                     <b className="px-3 text-xs">Alamat Lengkap</b>
                     <textarea
                       rows={4}
                       value={address}
-                      placeholder=" Jl. Kerta Pura No.25, Pemecutan Klod, Denpasar Barat, Kota Denpasar, Bali. "
+                      placeholder="Jl. Kerta Pura No.25, Pemecutan Klod, Denpasar Barat, Kota Denpasar, Bali. "
                       className="bg-white border-t border-indigo-950 text-indigo-950 px-3 py-1 font-semibold w-full outline-none rounded-b-xl"
                       onChange={addressHandler}
                     />
                   </div>
 
+                  {/* PENGIRIMAN T-SHIRT*/}
+                  <div className="border-2 border-indigo-800 rounded-xl mb-6">
+                    <b className="px-3 text-xs">Kurir</b>
+                    <select
+                      className="bg-white border-t border-indigo-950 text-indigo-950 px-2 py-1 font-semibold w-full outline-none rounded-b-xl"
+                      value={deliveryCost}
+                      required
+                      onChange={deliveryCostHandler}
+                    >
+                      <option value="">Pilih Pengiriman</option>
+                      {jneDelivery.map((data) => (
+                        <option key={data.service} value={data.cost[0].value}>
+                          {`JNE ${data.service} (Rp ${data.cost[0].value}) (${data.cost[0].etd} hari)`}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                   <button
                     className="border-2 border-indigo-950 hover:border-indigo-600 bg-yellow-500 hover:bg-yellow-400 rounded-xl text-indigo-950 py-2 font-semibold w-full mb-3"
-                    // onClick={() => setView(6)}
+                    onClick={() => validateForm4()}
                   >
-                    Submit
+                    Checkout
                   </button>
                   <button
                     className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-600 hover:border-indigo-600"
-                    onClick={() => setView(6)}
+                    onClick={() => setView(7)}
+                  >
+                    Kembali
+                  </button>
+                </div>
+              )}
+
+              {/* Checkout Topi */}
+              {view === 9 && (
+                <div className="text-start text-sm w-full md:w-80">
+                  <h1 className="font-bold text-lg text-center mb-3">
+                    Periksa Kembali Pesanan Anda
+                  </h1>
+                  <div className="border-2 border-indigo-600 rounded-2xl text-xs py-2 px-4 gap-3 mb-6">
+                    <h3 className="font-bold mb-1">CUSTOMER</h3>
+                    <div className="grid grid-cols-2 gap-1 mb-3">
+                      <p>Nama</p>
+                      <p className="font-semibold">{name}</p>
+                      <p>Email</p>
+                      <p className="font-semibold">{email}</p>
+                      <p>No HP & WA </p>
+                      <p className="font-semibold">{phoneNumber}</p>
+                    </div>
+                    <h3 className="font-bold mb-1">DELIVERY</h3>
+                    <div className="grid grid-cols-2 gap-1 mb-3">
+                      <p>Alamat</p>
+                      <p className="font-semibold">{address}</p>
+                      <p>Kode Pos</p>
+                      <p className="font-semibold">{postal}</p>
+                    </div>
+                    <h3 className="font-bold mb-1">ORDER</h3>
+                    <div className="grid grid-cols-2 gap-1 mb-3">
+                      <p>
+                        Topi Baseball {qty}x
+                      </p>
+                      <p className="font-semibold">Rp {qty * 50000}</p>
+                      <p>Ongkir</p>
+                      <p className="font-semibold">Rp {deliveryCost}</p>
+                    </div>
+                    <hr className="border border-indigo-800 mb-2"></hr>
+                    <div className="grid grid-cols-2 gap-1">
+                      <p className="font-bold">TOTAL</p>
+                      <p className="font-semibold">
+                        Rp {qty * 50000 + deliveryCost}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    className="border-2 border-indigo-950 hover:border-indigo-600 bg-yellow-500 hover:bg-yellow-400 rounded-xl text-indigo-950 py-2 font-semibold w-full mb-3"
+                    onClick={() =>
+                      handleTx2(qty * 50000 + deliveryCost, "MCDS2")
+                    }
+                  >
+                    Bayar Sekarang
+                  </button>
+                  <button
+                    className="border-2 border-indigo-950 rounded-xl text-indigo-950 py-2 font-semibold w-full hover:text-indigo-600 hover:border-indigo-600"
+                    onClick={() => setView(8)}
                   >
                     Kembali
                   </button>

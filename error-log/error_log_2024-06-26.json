@@ -1,0 +1,27 @@
+[
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"item_details Merchant name too long\",\"transaction_details.gross_amount is not equal to the sum of item_details\"]}"
+  },
+  {
+    "route": "/api/payment/tx1",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"item_details Merchant name too long\",\"transaction_details.gross_amount is not equal to the sum of item_details\"]}"
+  },
+  {
+    "route": "/api/payment/tx2",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"item_details Merchant name too long\",\"transaction_details.gross_amount is not equal to the sum of item_details\"]}"
+  },
+  {
+    "route": "/api/payment/tx2",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount is not equal to the sum of item_details\"]}"
+  },
+  {
+    "route": "/api/payment/tx2",
+    "status": 500,
+    "message": "Midtrans API is returning API error. HTTP status code: 400. API response: {\"error_messages\":[\"transaction_details.gross_amount is not equal to the sum of item_details\"]}"
+  }
+]

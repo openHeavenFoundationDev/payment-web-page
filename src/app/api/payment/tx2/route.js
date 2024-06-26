@@ -6,9 +6,10 @@ export async function POST(request) {
   try {
     // Read the body data
     const {
-      typeTx,
       orderId,
       item,
+      qty,
+      price,
       firstName,
       lastName,
       email,
@@ -36,33 +37,41 @@ export async function POST(request) {
         gross_amount: grossAmount,
       },
       item_details: [
-        { id: orderId, price: grossAmount, quantity: 1, name: item },
+        {
+          id: orderId,
+          price: grossAmount,
+          quantity: 1,
+          name: item,
+          brand: "local",
+          category: "clothes",
+          merchant_name: "OH",
+          url: "https://foundationopenheaven.vercel.app",
+        },
       ],
       customer_details: {
         first_name: firstName,
         last_name: lastName,
         email: email,
         phone: phoneNumber,
-      },
-      billing_address: {
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        phone: phoneNumber,
-        address: address,
-        city: "",
-        postal_code: "",
-        country_code: "IDN",
-      },
-      shipping_address: {
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        phone: phoneNumber,
-        address: address,
-        city: "",
-        postal_code: "",
-        country_code: "IDN",
+        billing_address: {
+          first_name: firstName,
+          last_name: lastName,
+          phone: phoneNumber,
+          address: address,
+          city: "",
+          postal_code: "",
+          country_code: "IDN",
+        },
+        shipping_address: {
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          phone: phoneNumber,
+          address: address,
+          city: "",
+          postal_code: "",
+          country_code: "IDN",
+        },
       },
       // callbacks: {
       //   finish: `https://open-heaven-foundation.vercel.app/thankyou/${typeTx}`,
@@ -75,7 +84,7 @@ export async function POST(request) {
 
     // return a success log which has token and url transaction
     return NextResponse.json({
-      route: "/api/payment/tx1",
+      route: "/api/payment/tx2",
       status: 200,
       message: "The transaction has been generated.",
       data: transaction,
@@ -83,7 +92,7 @@ export async function POST(request) {
   } catch (error) {
     // If the system or server error then return an error log
     const log = {
-      route: "/api/payment/tx1",
+      route: "/api/payment/tx2",
       status: 500,
       message: error.message.trim(),
     };
