@@ -30,7 +30,7 @@ export async function POST(request) {
       clientKey: client_key,
     });
 
-    // Parameter config
+    // Parameter config_
     const parameter = {
       transaction_details: {
         order_id: orderId,
